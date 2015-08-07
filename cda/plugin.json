@@ -1,0 +1,14 @@
+{
+	"description": "<p>CDA.PL - Polish site with variety of content (mainly movies with polish dubbing and subtitles)</p><p>For additional info, visit <a href=\"http://cda.pl\">http://cda.pl</a>",
+	"author": "pisek", 
+	"homepage": "https://github.com/pisek/showtime-plugin-cda",
+	"title": "CDA.PL",
+	"synopsis": "CDA.PL - Polish site with variety of content",
+	"version": "1.0.0",
+	"file": "cda.js",
+	"showtimeVersion": "4.9.46",
+	"type": "ecmascript",
+	"id": "cda",
+	"icon": "logo.png",
+	"category": "video"
+}
