@@ -174,6 +174,7 @@
         if ((match = pattern.exec(c)) !== null) {
         	/*c = showtime.httpReq(match[1]);
         	d(c.headers);*/
+        	d(match[1]);
         	page.source = match[1];
         } else {
         	//youtube movie (or other)
