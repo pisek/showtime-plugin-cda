@@ -1,5 +1,5 @@
 {
-	"description": "<p>CDA.PL - Polish site with variety of content (mainly movies with polish dubbing and subtitles)</p><p>For additional info, visit <a href=\"http://cda.pl\">http://cda.pl</a>",
+	"description": "<p>CDA.PL - Polish site with variety of content (mainly movies with polish dubbing and subtitles)</p><p>For searching please use Movian's main search field.</p><p>More info at <a href=\"https://github.com/pisek/showtime-plugin-cda\">https://github.com/pisek/showtime-plugin-cda</a> and <a href=\"http://cda.pl\">http://cda.pl</a>",
 	"author": "pisek", 
 	"homepage": "https://github.com/pisek/showtime-plugin-cda",
 	"title": "CDA.PL",
