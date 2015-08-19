@@ -39,6 +39,7 @@
 	}
 	
     function browseItems(page, search) {
+		var moreSearchPages = true;    	
         var pageNumber = 1;
         page.entries = 0;
 
@@ -58,6 +59,13 @@
         var pagePattern = /<span class="disabledPage">(\d+)<\/span> <span class="disabled">&gt;<\/span>/igm;
         
         function loader() {
+        	
+        	//for the purpose of search - loader in search and in showing search values are different instances (!?)
+        	//therefore we have to check this flag as well
+        	if (search != null && !moreSearchPages) {
+        		return false;
+        	}
+        	
         	page.loading = true;
         
         	var url;
@@ -83,16 +91,22 @@
 			
 			page.loading = false;
 			if (pageNumber == 1 && page.metadata) {	//only for first page - search results
-               page.metadata.title += ' (' + page.entries + ')';
+               page.metadata.title += ' (' + page.entries;
+               if (page.entries == 24) {
+	               page.metadata.title += '+';
+               }
+               page.metadata.title += ')';
             }
 			
 			pageNumber++;
 			match = pagePattern.exec(c);
 			d(match);
+			moreSearchPages = (match == null);
 			return match == null;
         }
 		
-		loader();
+        //for search to work
+        loader();
         page.paginator = loader;
         
     }
