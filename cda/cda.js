@@ -46,7 +46,7 @@
         var patternVideo = /<label  title="(.*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
         
         //1 - desc, 2 - id, 3 - img, 4 - name
-        var patternSearch = /<label  title="(.*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
+        var patternSearch = /<label  title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
         
         var pattern;
         if (search == null) {
