@@ -127,11 +127,18 @@
     	page.type = "directory";
         page.contents = "items";
         
+        d(DEFAULT_URL + id);
         var c = showtime.httpReq(DEFAULT_URL + id);
         
         // 1 - type, 2 - description, 3 - title, 4 - imageurl, 5 - duration, 6 - negative-rating
-        var pattern = /<meta property="og:type" content="(.*?)".*>[\s\S]*<meta property="og:description" content="(.+?)".*>\s*<meta property="og:title" content="(.+?)".*>\s*<meta property="og:image" content="(.+?)".*>[\s\S]*config: \{\s*duration: "([\d:]+)",[\s\S]*<span class="bialeSred"><span class="szareSred" style="width:(\d*?)px"><\/span><\/span>/igm;
+        var pattern = /<meta property="og:type" content="(.*?)".*>[\s\S]*<meta property="og:description" content="([\s\S]+?)".*>\s*<meta property="og:title" content="(.+?)".*>\s*<meta property="og:image" content="(.+?)".*>[\s\S]*config: \{\s*duration: "([\d:]+)",[\s\S]*<span class="bialeSred"><span class="szareSred" style="width:(\d*?)px"><\/span><\/span>/igm;
         if ((match = pattern.exec(c)) !== null) {
+        	d(match[1]);
+        	d(match[2]);
+        	d(match[3]);
+        	d(match[4]);
+        	d(match[5]);
+        	d(match[6]);
         	var type = match[1];
         	var desc = match[2];
         	var title = match[3];
@@ -152,6 +159,7 @@
         var pattern = /<a.*?href="\/video\/(\d\w+\?wersja=(\d\w+))".*?>/igm;
         var addedQuality = false;
         while ((match = pattern.exec(c)) !== null) {
+        	d(match);
         	page.appendItem(PREFIX + ":video:" + match[1], 'video', {
 						title : new showtime.RichText(match[2]),
 						icon : image,
