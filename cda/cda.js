@@ -130,8 +130,8 @@
         d(DEFAULT_URL + id);
         var c = showtime.httpReq(DEFAULT_URL + id);
         
-        // 1 - type, 2 - description, 3 - title, 4 - imageurl, 5 - duration, 6 - negative-rating
-        var pattern = /<meta property="og:type" content="(.*?)".*>[\s\S]*<meta property="og:description" content="([\s\S]+?)".*>\s*<meta property="og:title" content="(.+?)".*>\s*<meta property="og:image" content="(.+?)".*>[\s\S]*config: \{\s*duration: "([\d:]+)",[\s\S]*<span class="bialeSred"><span class="szareSred" style="width:(\d*?)px"><\/span><\/span>/igm;
+        // 1 - type, 2 - description, 3 - title, 4 - imageurl, 5 - negative-rating
+        var pattern = /<meta property="og:type" content="(.*?)".*?>[\s\S]*?<meta property="og:description" content="([\s\S]+?)".*?>\s*?<meta property="og:title" content="(.+?)".*?>\s*?<meta property="og:image" content="(.+?)".*?>[\s\S]*?<span class="bialeSred"><span class="szareSred" style="width:(\d*?)px"><\/span><\/span>/igm;
         if ((match = pattern.exec(c)) !== null) {
         	d(match[1]);
         	d(match[2]);
@@ -143,12 +143,46 @@
         	var desc = match[2];
         	var title = match[3];
         	var image = match[4];
-        	var duration = match[5];
         	var rating = (80-match[6])/80*100;
         	
         	page.metadata.title = title;
         	page.metadata.background = image;
         	page.metadata.backgroundAlpha = 0.3;
+        }
+        
+        
+        // 1 - duration
+        var pattern = /<meta itemprop='duration' content='T((\d*?)H)*((\d*)?M)*(\d+?)S' \/>/igm;
+        if ((match = pattern.exec(c)) !== null) {
+        	d(match);
+        	var h = match[2];
+        	var m = match[4];
+        	var s = match[5];
+        	
+        	if (h != null) {
+        		while(h.length != 2) {
+        			h = '0' + h;
+        		}
+        	} else {
+        		h = '00';
+        	}
+        	if (m != null) {
+        		while(h.length != 2) {
+        			m = '0' + m;
+        		}
+        	} else {
+        		m = '00';
+        	}
+        	if (s != null) {
+        		while(s.length != 2) {
+        			s = '0' + s;
+        		}
+        	} else {
+        		s = '00';
+        	}
+        	
+        	var duration = h + ':' + m + ':' + s;
+        	d(duration);
         }
         
         page.appendItem("", "separator", {
@@ -161,25 +195,27 @@
         while ((match = pattern.exec(c)) !== null) {
         	d(match);
         	page.appendItem(PREFIX + ":video:" + match[1], 'video', {
-						title : new showtime.RichText(match[2]),
+						title : match[2],
 						icon : image,
 						genre: type,
 						rating: rating,
 						duration: duration,
-						description : new showtime.RichText(desc)
+						description : desc
 					});
 			addedQuality = true;
         }
         
+        
+        
         //if there are no quality versions, add a default one
         if (!addedQuality) {
         	page.appendItem(PREFIX + ":video:" + id, 'video', {
-						title : new showtime.RichText("Default quality"),
+						title : "Default quality",
 						icon : image,
 						genre: type,
 						rating: rating,
 						duration: duration,
-						description : new showtime.RichText(desc)
+						description : desc
 					});
         }
         
@@ -200,8 +236,9 @@
         	page.source = match[1];
         } else {
         	//youtube movie (or other)
+        	page.error("Cannot open links from other sites (like youtube etc).");
         	d('cannot open movie other than cda');
-			page.redirect(PREFIX + ":start");        	
+        	return;
         }
         page.loading = false;
         page.type = "video";
