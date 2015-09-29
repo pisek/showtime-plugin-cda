@@ -4,7 +4,7 @@
 	"homepage": "https://github.com/pisek/showtime-plugin-cda",
 	"title": "CDA.PL",
 	"synopsis": "CDA.PL - Polish site with variety of content",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"file": "cda.js",
 	"showtimeVersion": "4.9.46",
 	"type": "ecmascript",
