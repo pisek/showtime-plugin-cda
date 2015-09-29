@@ -148,7 +148,7 @@
 			
 			pageNumber++;
 			match = pagePattern.exec(c);
-			d(match);
+			d(match == null);
 			moreSearchPages = (match == null);
 			return match == null;
         }
@@ -158,6 +158,11 @@
         page.paginator = loader;
         
     }
+    
+	plugin.addSearcher(plugin.getDescriptor().title, LOGO, function(page, search) {
+		setPageHeader(page, plugin.getDescriptor().title);
+        browseItems(page, search);
+    });
 
     plugin.addURI(PREFIX + ":start", function(page) {
         setPageHeader(page, plugin.getDescriptor().synopsis);
@@ -171,10 +176,10 @@
     });
     
     plugin.addURI(PREFIX + ":movie:(.*)", function(page, id) {
+        setPageHeader(page, "Searching...");
     	page.loading = true;
     	page.type = "directory";
         page.contents = "items";
-        setPageHeader(page, "Searching...", image);
         
         d(DEFAULT_URL + id);
         var c = showtime.httpReq(DEFAULT_URL + id);
@@ -307,6 +312,7 @@
     });
     
     plugin.addURI(PREFIX + ":video:(.*):(.*):(.*)", function(page, id, quality, url) {
+    	setPageHeader(page, "Searching...");
     	page.loading = true;
     	var videoUrl;
     	var title;
@@ -346,8 +352,4 @@
         page.type = "video";
     });
     
-	plugin.addSearcher(plugin.getDescriptor().id, LOGO, function(page, search) {
-        browseItems(page, search);
-    });
-
 })(this);
