@@ -167,7 +167,7 @@
     plugin.addURI(PREFIX + ":start", function(page) {
         setPageHeader(page, plugin.getDescriptor().synopsis);
         page.type = "directory";
-        page.contents = "items";
+        page.contents = "movies";
         
         page.appendItem("", "separator", {
             title: 'Newest'
@@ -179,7 +179,7 @@
         setPageHeader(page, "Searching...");
     	page.loading = true;
     	page.type = "directory";
-        page.contents = "items";
+        page.contents = "movies";
         
         d(DEFAULT_URL + id);
         var c = showtime.httpReq(DEFAULT_URL + id);
