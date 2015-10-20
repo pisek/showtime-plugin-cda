@@ -22,7 +22,7 @@
 (function(plugin) {
     var PREFIX = plugin.getDescriptor().id;
     var LOGO = plugin.path + "logo.png";
-    var BACKGROUND = plugin.path + "views/img/background.png";
+    var BACKGROUND = plugin.path + "views/img/background.jpg";
     
     var DEFAULT_URL = 'http://www.cda.pl/video/';
     
