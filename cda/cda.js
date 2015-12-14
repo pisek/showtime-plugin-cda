@@ -86,22 +86,36 @@
         return h + ':' + m + ':' + s;
 	}
 	
-    function browseItems(page, search) {
+    function browseItems(page, search, poczekalnia) {
 		var moreSearchPages = true;    	
         var pageNumber = 1;
         page.entries = 0;
 
-        //1 - desc, 2 - id, 3 - img, 4 - name
+        //desc - 1, id - 2, img - 3, name - 4
         var patternVideo = /<label  title="([\s\S]*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
+        var matcherVideo = [1, 2, 3, 4];
         
-        //1 - desc, 2 - id, 3 - img, 4 - name
+        //desc - 1, id - 2, img - 3, name - 4
         var patternSearch = /<label  title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
+        var matcherSearch = [1, 2, 3, 4];
+        
+        //desc - 1, id - 4, img - 2, name - 3
+        var patternPoczekalnia = /<div class="videoMiniaturkaWrap"><img  title="([\s\S]*?)" src="([\s\S]*?)" [\s\S]*? alt="([\s\S]*?)" class="videoMiniaturka" [\s\S]*? href="\/video\/(\d\w+)">/igm;
+        var matcherPoczekalnia = [1, 4, 2, 3];
         
         var pattern;
+        var matcher;
         if (search == null) {
-        	pattern = patternVideo;
+            if (poczekalnia) {
+                pattern = patternPoczekalnia;
+                matcher = matcherPoczekalnia;
+            } else {
+                pattern = patternVideo;
+                matcher = matcherVideo;
+            }
         } else {
         	pattern = patternSearch;
+            matcher = matcherSearch;
         }
         
         var pagePattern = /<span class="disabledPage">(\d+)<\/span> <span class="disabled">&gt;<\/span>/igm;
@@ -118,7 +132,11 @@
         
         	var url;
         	if (search == null) {
-        		url = DEFAULT_URL + 'p' + pageNumber;
+                if (poczekalnia) {
+                    url = DEFAULT_URL + 'poczekalnia/p' + pageNumber;
+                } else {
+                    url = DEFAULT_URL + 'p' + pageNumber;
+                }
         	} else {
         		url = DEFAULT_URL + 'show/' + search.replace(/\s/g, '_') + '/p' + pageNumber;
         	}
@@ -127,13 +145,19 @@
 	        var c = showtime.httpReq(url);
 	        
 	        while ((match = pattern.exec(c)) !== null) {
-	
-				page.appendItem(PREFIX + ":movie:" + match[2], 'video', {
-							title : new showtime.RichText(match[4]),
-							icon : new showtime.RichText(match[3]),
-							description : new showtime.RichText(match[1])
+
+				page.appendItem(PREFIX + ":movie:" + match[matcher[1]], 'video', {
+							title : new showtime.RichText(match[matcher[3]]),
+							icon : new showtime.RichText(match[matcher[2]]),
+							description : new showtime.RichText(match[matcher[0]])
 						});
 				page.entries++; // for searcher to work
+            
+                if (poczekalnia && page.entries == 14) {
+                    page.appendItem("", "separator", {
+                        title: 'Newest in waiting room'
+                    });
+                }
 	
 			}
 			
@@ -169,10 +193,31 @@
         page.type = "directory";
         page.contents = "movies";
         
+       	page.appendItem(PREFIX + ":poczekalnia", 'video', {
+			title : "Waiting room",
+		});
+        
         page.appendItem("", "separator", {
             title: 'Newest'
         });
-        browseItems(page);
+        
+        page.metadata.glwview = plugin.path + "init.view";
+        
+    	browseItems(page);
+    });
+    
+    plugin.addURI(PREFIX + ":poczekalnia", function(page) {
+        setPageHeader(page, plugin.getDescriptor().synopsis);
+        page.type = "directory";
+        page.contents = "movies";
+        
+        page.appendItem("", "separator", {
+            title: 'Lately popular in waiting room'
+        });
+        
+        page.metadata.glwview = plugin.path + "init.view";
+        
+    	browseItems(page, null, true);
     });
     
     plugin.addURI(PREFIX + ":movie:(.*)", function(page, id) {
