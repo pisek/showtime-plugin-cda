@@ -201,8 +201,6 @@
             title: 'Newest'
         });
         
-        page.metadata.glwview = plugin.path + "init.view";
-        
     	browseItems(page);
     });
     
@@ -214,8 +212,6 @@
         page.appendItem("", "separator", {
             title: 'Lately popular in waiting room'
         });
-        
-        page.metadata.glwview = plugin.path + "init.view";
         
     	browseItems(page, null, true);
     });
