@@ -363,7 +363,7 @@
 		//d(c.headers);
 		
 		// 1 - movie url
-		var pattern = /if \(checkFlash\(\)\)\{\s*l='(.*)';\s*jwplayer/igm;
+		var pattern = /if\(checkFlash\(\)[\s\S]*\) \{\s*l='(.*)';\s*jwplayer/igm;
 		if ((match = pattern.exec(c)) !== null) {
 			/*c = showtime.httpReq(match[1]);
 			d(c.headers);*/
