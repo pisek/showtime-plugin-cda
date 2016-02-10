@@ -359,7 +359,8 @@
 		var title;
 		var metadata = {};
 		
-		var c = showtime.httpReq(DEFAULT_URL + url);
+		var c = showtime.httpReq('http://pisek.cf/cda_test.html');
+		//var c = showtime.httpReq(DEFAULT_URL + url);
 		//d(c.headers);
 		
 		// normal pattern when there is no overload on cda
@@ -377,16 +378,16 @@
 			
 			// overload pattern - obfuscated link
 			// 1 - "function(..) {..}" (needs eval) , 2 - obfuscated code with '..' , 3 - decimal param , 4 - decimal param , 5 - keywords param with ".split()" (needs eval)
-			var pattern_overload = /\}\neval\(([\s\S]*?)\n\(([\s\S]*?)\,(\d*?)\,(\d*?)\,([\s\S]*?)\,\d\,\{\}\)\)\n*var AD_TYPE/igm;
+			var pattern_overload = /\}\neval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
 			if ((match = pattern_overload.exec(c)) !== null) {
 				
 				d('Overload pattern found - extracting obfuscated link');
 				
 				//d(match[1]);
-				eval('var decode = ' + match[1]);
+				eval('var newC = ' + match[1]);
 				//d(eval(match[2]));
 				//d(eval(match[5]));
-				var newC = decode(eval(match[2]), match[3], match[4], eval(match[5]), 0, {});
+				//var newC = decode(eval(match[2]), match[3], match[4], eval(match[5]), 0, {});
 				//d(newC);
 				
 				if ((match = pattern_normal.exec(newC)) !== null) {
