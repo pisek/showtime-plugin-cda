@@ -359,8 +359,7 @@
 		var title;
 		var metadata = {};
 		
-		var c = showtime.httpReq('http://pisek.cf/cda_test.html');
-		//var c = showtime.httpReq(DEFAULT_URL + url);
+		var c = showtime.httpReq(DEFAULT_URL + url);
 		//d(c.headers);
 		
 		// normal pattern when there is no overload on cda
