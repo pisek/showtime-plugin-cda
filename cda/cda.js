@@ -100,7 +100,7 @@
 		var matcherSearch = [1, 2, 3, 4];
 		
 		//desc - 1, id - 4, img - 2, name - 3
-		var patternPoczekalnia = /<div class="videoMiniaturkaWrap"><img  title="([\s\S]*?)" src="([\s\S]*?)" [\s\S]*? alt="([\s\S]*?)" class="videoMiniaturka" [\s\S]*? href="\/video\/(\d\w+)">/igm;
+		var patternPoczekalnia = /<div class="videoMiniaturkaWrap"><img title="([\s\S]*?)" src="([\s\S]*?)" [\s\S]*? alt="([\s\S]*?)" class="videoMiniaturka"[\s\S]*? href="\/video\/(\d\w+)">/igm;
 		var matcherPoczekalnia = [1, 4, 2, 3];
 		
 		var pattern;
