@@ -92,11 +92,11 @@
 		page.entries = 0;
 
 		//desc - 1, id - 2, img - 3, name - 4
-		var patternVideo = /<label  title="([\s\S]*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
+		var patternVideo = /<label title="([\s\S]*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
 		var matcherVideo = [1, 2, 3, 4];
 		
 		//desc - 1, id - 2, img - 3, name - 4
-		var patternSearch = /<label  title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
+		var patternSearch = /<label title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
 		var matcherSearch = [1, 2, 3, 4];
 		
 		//desc - 1, id - 4, img - 2, name - 3
@@ -145,6 +145,8 @@
 			var c = showtime.httpReq(url);
 			
 			while ((match = pattern.exec(c)) !== null) {
+			
+				//d(match);
 
 				page.appendItem(PREFIX + ":movie:" + match[matcher[1]], 'video', {
 							title : new showtime.RichText(match[matcher[3]]),
