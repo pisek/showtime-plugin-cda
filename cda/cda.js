@@ -380,7 +380,8 @@
 			
 			// overload pattern - obfuscated link
 			// 1 - "function(..) {..} (..)" (needs eval and variable to set the result to)
-			var pattern_overload = /\}\neval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
+			//var pattern_overload = /\}\neval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
+			var pattern_overload = /\}\s*eval\(([\s\S]*?)\)\s*function onLinearAdStart/igm;
 			if ((match = pattern_overload.exec(c)) !== null) {
 				
 				d('Overload pattern found - extracting obfuscated link');
@@ -389,7 +390,8 @@
 				eval('var newC = ' + match[1]);
 				//d(newC);
 				
-				if ((match = pattern_normal.exec(newC)) !== null) {
+				var pattern_overload_normal = /url:'(.*?)',/igm;
+				if ((match = pattern_overload_normal.exec(newC)) !== null) {
 					/*newC = showtime.httpReq(match[1]);
 					d(newC.headers);*/
 					d('Video found: ' + match[1]);
