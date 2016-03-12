@@ -380,18 +380,35 @@
 			
 			// overload pattern - obfuscated link
 			// 1 - "function(..) {..} (..)" (needs eval and variable to set the result to)
-			//var pattern_overload = /\}\neval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
-			var pattern_overload = /\}\s*eval\(([\s\S]*?)\)\s*function onLinearAdStart/igm;
-			if ((match = pattern_overload.exec(c)) !== null) {
+			var pattern_overload1 = /\}\s*?eval\(([\s\S]*?)\)\s*function onLinearAdStart/igm;
+			var pattern_overload2 = /\}\s*?eval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
+			
+			
+			if ((match = pattern_overload1.exec(c)) !== null) {
 				
-				d('Overload pattern found - extracting obfuscated link');
+				d('Overload1 pattern found - extracting obfuscated link');
 				
 				//d(match[1]);
 				eval('var newC = ' + match[1]);
 				//d(newC);
 				
-				var pattern_overload_normal = /url:'(.*?)',/igm;
-				if ((match = pattern_overload_normal.exec(newC)) !== null) {
+				var pattern_overload1_normal = /url:'(.*?)',/igm;
+				if ((match = pattern_overload1_normal.exec(newC)) !== null) {
+					/*newC = showtime.httpReq(match[1]);
+					d(newC.headers);*/
+					d('Video found: ' + match[1]);
+					videoUrl = match[1];
+				}
+				
+			} else if ((match = pattern_overload2.exec(c)) !== null) {
+				
+				d('Overload2 pattern found - extracting obfuscated link');
+				
+				//d(match[1]);
+				eval('var newC = ' + match[1]);
+				//d(newC);
+				
+				if ((match = pattern_normal.exec(newC)) !== null) {
 					/*newC = showtime.httpReq(match[1]);
 					d(newC.headers);*/
 					d('Video found: ' + match[1]);
