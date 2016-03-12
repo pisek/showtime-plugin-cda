@@ -130,15 +130,21 @@
 			
 			page.loading = true;
 		
+		
+			var pageNumberParam = 'p' + pageNumber;
+			if (pageNumber == 1) {
+				pageNumberParam = '';
+			}
+		
 			var url;
 			if (search == null) {
 					if (poczekalnia) {
-						url = DEFAULT_URL + 'poczekalnia/p' + pageNumber;
+						url = DEFAULT_URL + 'poczekalnia/' + pageNumberParam;
 					} else {
-						url = DEFAULT_URL + 'p' + pageNumber;
+						url = DEFAULT_URL + pageNumberParam;
 					}
 			} else {
-				url = DEFAULT_URL + 'show/' + search.replace(/\s/g, '_') + '/p' + pageNumber;
+				url = DEFAULT_URL + 'show/' + search.replace(/\s/g, '_') + '/' + pageNumberParam;
 			}
 			
 			d(url);
