@@ -1,5 +1,5 @@
 # showtime-plugin-cda
 
-CDA.PL - Polish site with variety of content (mainly movies with polish dubbing and subtitles)
+cda.pl plugin written for Movian (old Showtime) application
 
-For additional info, visit http://cda.pl
+For additional info, visit https://movian.tv and http://cda.pl
