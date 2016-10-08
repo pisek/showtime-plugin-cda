@@ -22,7 +22,6 @@
 (function(plugin) {
 	var PREFIX = plugin.getDescriptor().id;
 	var LOGO = plugin.path + "logo.png";
-	var BACKGROUND = plugin.path + "views/img/background.jpg";
 	
 	var DEFAULT_URL = 'http://www.cda.pl/video/';
 	
@@ -49,9 +48,6 @@
 			if (image) {
 				page.metadata.background = image;
 				page.metadata.backgroundAlpha = 0.3;
-			} else {
-				page.metadata.background = BACKGROUND;
-				page.metadata.backgroundAlpha = 0.7;
 			}
 		}
 	}
@@ -92,15 +88,15 @@
 		page.entries = 0;
 
 		//desc - 1, id - 2, img - 3, name - 4
-		var patternVideo = /<label title="([\s\S]*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
+		var patternVideo = /<label\s+title="([\s\S]*?)">\s*<div class="videoElem">\s*<a class="aBoxVideoElement" .* href="\/video\/(\d\w+)".*>\s*<img.*src="(.*?)".*>[\s\S]*?<a.*alt="(.*?)">/igm;
 		var matcherVideo = [1, 2, 3, 4];
 		
 		//desc - 1, id - 2, img - 3, name - 4
-		var patternSearch = /<label title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
+		var patternSearch = /<label\s+title="([\s\S]*?)">[\s\S]*?<a.*href="\/video\/(\d\w+)".*>[\s\S]*?<img.*src="(.*?)".*\s*alt="(.*?)">/igm;
 		var matcherSearch = [1, 2, 3, 4];
 		
 		//desc - 1, id - 4, img - 2, name - 3
-		var patternPoczekalnia = /<div class="videoMiniaturkaWrap"><img title="([\s\S]*?)" src="([\s\S]*?)" [\s\S]*? alt="([\s\S]*?)" class="videoMiniaturka"[\s\S]*? href="\/video\/(\d\w+)">/igm;
+		var patternPoczekalnia = /<div class="videoMiniaturkaWrap"><img\s+title="([\s\S]*?)" src="([\s\S]*?)" [\s\S]*? alt="([\s\S]*?)" class="videoMiniaturka"[\s\S]*? href="\/video\/(\d\w+)">/igm;
 		var matcherPoczekalnia = [1, 4, 2, 3];
 		
 		var pattern;
