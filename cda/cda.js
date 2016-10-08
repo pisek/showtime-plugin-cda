@@ -111,7 +111,7 @@
 				}
 		} else {
 			pattern = patternSearch;
-				matcher = matcherSearch;
+			matcher = matcherSearch;
 		}
 		
 		var pagePattern = /<span class="disabledPage">(\d+)<\/span> <span class="disabled">&gt;<\/span>/igm;
@@ -306,19 +306,19 @@
 						continue;
 					}
 					
-				//find closest quality from bottom (bottom first)
-				if (quality > bestMatch[3] && quality < desiredQuality) {
-					bestMatch = match;
-					d(bestMatch);
-					continue;
-				}
+					//find closest quality from bottom (bottom first)
+					if (quality > bestMatch[3] && quality < desiredQuality) {
+						bestMatch = match;
+						d(bestMatch);
+						continue;
+					}
 				
-				//find closest quality from top
-				if (quality < bestMatch[3] && quality > desiredQuality) {
-					bestMatch = match;
-					d(bestMatch);
-					continue;
-				}
+					//find closest quality from top
+					if (quality < bestMatch[3] && quality > desiredQuality) {
+						bestMatch = match;
+						d(bestMatch);
+						continue;
+					}
 				
 				}
 			
@@ -382,9 +382,7 @@
 			
 			// overload pattern - obfuscated link
 			// 1 - "function(..) {..} (..)" (needs eval and variable to set the result to)
-			var pattern_overload1 = /\}\s*?eval\(([\s\S]*?)\)\s*function onLinearAdStart/igm;
-			var pattern_overload2 = /\}\s*?eval\(([\s\S]*?)\)\n*var AD_TYPE/igm;
-			
+			var pattern_overload1 = /\}\s*?eval\(([\s\S]*?)\)\s*function onImpressionEvent/igm;			
 			
 			if ((match = pattern_overload1.exec(c)) !== null) {
 				
@@ -394,23 +392,8 @@
 				eval('var newC = ' + match[1]);
 				//d(newC);
 				
-				var pattern_overload1_normal = /url:'(.*?)',/igm;
+				var pattern_overload1_normal = /file:'(.*?)',/igm;
 				if ((match = pattern_overload1_normal.exec(newC)) !== null) {
-					/*newC = showtime.httpReq(match[1]);
-					d(newC.headers);*/
-					d('Video found: ' + match[1]);
-					videoUrl = match[1];
-				}
-				
-			} else if ((match = pattern_overload2.exec(c)) !== null) {
-				
-				d('Overload2 pattern found - extracting obfuscated link');
-				
-				//d(match[1]);
-				eval('var newC = ' + match[1]);
-				//d(newC);
-				
-				if ((match = pattern_normal.exec(newC)) !== null) {
 					/*newC = showtime.httpReq(match[1]);
 					d(newC.headers);*/
 					d('Video found: ' + match[1]);
