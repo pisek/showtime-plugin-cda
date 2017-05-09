@@ -379,10 +379,19 @@
 		} else {
 			
 			d('Cannot find anything with normal pattern - trying overload');
+
+			
+
+			//		print(c.toString());			
+						
+	
 			
 			// overload pattern - obfuscated link
 			// 1 - "function(..) {..} (..)" (needs eval and variable to set the result to)
 			var pattern_overload1 = /\}\s*?eval\(([\s\S]*?)\)\s*function onImpressionEvent/igm;			
+
+			// overload pattern 2 - obfuscated link in tag param
+			var pattern_overload2 = /player_data='([\s\S]+?)'/igm;	
 			
 			if ((match = pattern_overload1.exec(c)) !== null) {
 				
@@ -396,13 +405,27 @@
 				if ((match = pattern_overload1_normal.exec(newC)) !== null) {
 					/*newC = showtime.httpReq(match[1]);
 					d(newC.headers);*/
-					d('Video found: ' + match[1]);
 					videoUrl = match[1];
 				}
+				
+			} else if ((match = pattern_overload2.exec(c)) !== null) {
+			
+				d('Overload2 pattern found - extracting obfuscated link');
+				
+				var movieJson = showtime.JSONDecode(match[1]);
+				d(movieJson);
+				var maskedUrl = movieJson.video.file;
+				videoUrl = maskedUrl.replace(/[a-zA-Z]/g, function(a) {
+					return String.fromCharCode(("Z" >= a ? 90 : 122) >= (a = a.charCodeAt(0) + 13) ? a : a - 26)
+				})
 				
 			}
 			
 		}
+		
+		
+		d('Video found: ' + videoUrl);
+		
 		
 		if (!videoUrl) {
 			//youtube movie (or other)
